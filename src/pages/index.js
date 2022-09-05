@@ -6,13 +6,6 @@ import styles from '../styles/Home.module.css'
 export async function getServerSideProps(context) {
   const tours = await prisma.tour.findMany()
 
-  const tourF = await prisma.tour.findFirst({
-    where: { country: 'en' },
-  })
-
-  console.log('%c [qq]: tours ', 'background: #fbff00; color: #000000; font-size: 1rem; padding: 0.2rem 0; margin: 0.5rem;', '\n', tours, '\n\n');
-  console.log('%c [qq]: tourF ', 'background: #fbff00; color: #000000; font-size: 1rem; padding: 0.2rem 0; margin: 0.5rem;', '\n', tourF, '\n\n');
-
   return {
     props: {
       tours
@@ -41,7 +34,7 @@ export default function Home({tours}) {
               <a href="https://nextjs.org/docs" className={styles.card} key={tour?.id}>
                 <h2>{tour?.name} &rarr;</h2>
                 <p>{tour?.city}</p>
-                <p>{tour?.description_short}</p>
+                <p>{tour?.descriptionShort}</p>
               </a>
             )
           })}

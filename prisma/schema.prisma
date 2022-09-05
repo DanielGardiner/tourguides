@@ -54,7 +54,6 @@ model VerificationToken {
 model Tour {
   id                   String    @id @default(cuid())
   name                 String
-  description_short    String
-  country              String
+  descriptionShort     String?
   city                 String
 }
