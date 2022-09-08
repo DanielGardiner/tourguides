@@ -17,8 +17,12 @@ const options = {
       from: process.env.EMAIL_FROM
     }),
   ],
+  pages: {
+    signIn: '/signin',
+    verifyRequest: "/verify", // (used for check email message)
+},
   adapter: PrismaAdapter(prisma),
-  secret: process.env.SECRET,
+  secret: process.env.NEXTAUTH_SECRET,
 };
 
 const authHandler = (req, res) => NextAuth(req, res, options);
