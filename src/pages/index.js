@@ -3,6 +3,7 @@ import Image from 'next/image'
 import prisma from '../server/prismaClient'
 import styles from '../styles/Home.module.css'
 import { getSession, signIn, signOut } from 'next-auth/react'
+import Button from '../components/Button'
 
 export async function getServerSideProps({req, res}) {
   const session = await getSession({ req })
@@ -36,11 +37,12 @@ export default function Home({
         {session ? (
           <button onClick={() => signOut()}>Sign out</button>
           ) : (
-            
-          <button onClick={() => signIn()}>Sign in</button>
-        )}
-        <h1 className={styles.title}>
-          Welcome to <a href="https://nextjs.org">Next.js!</a>
+          <Button onClick={() => signIn()}>Sign in</Button>
+          )}
+
+        
+        <h1 className="text-3xl font-bold underline">
+          Hello world!
         </h1>
         <div className={styles.grid}>
           {tours?.map((tour) => {
