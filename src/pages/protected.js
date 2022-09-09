@@ -18,7 +18,7 @@ export async function getServerSideProps({ req, res }) {
   };
 }
 
-export default function Home({ tours }) {
+export default function ProtectedPage({ tours }) {
   return (
     <Layout>
       <h1>Protected Page</h1>

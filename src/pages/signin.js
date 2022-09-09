@@ -22,7 +22,7 @@ export async function getServerSideProps({ req, res }) {
   };
 }
 
-export default function SignIn() {
+export default function SignInPage() {
   const [email, setEmail] = useState("");
 
   const handleSubmit = (e) => {

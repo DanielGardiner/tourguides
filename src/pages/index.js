@@ -20,7 +20,7 @@ export async function getServerSideProps({ req, res }) {
   };
 }
 
-export default function Home({ session, tours }) {
+export default function HomePage({ session, tours }) {
   return (
     <>
       <Head>

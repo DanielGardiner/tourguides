@@ -1,4 +1,5 @@
 import { getSession } from 'next-auth/react'
+import Layout from '../components/Layout'
 
 
 export async function getServerSideProps({req, res}) {
@@ -19,9 +20,11 @@ export async function getServerSideProps({req, res}) {
   }
 }
 
-export default function Home({tours}) {
+export default function VerifyPage({tours}) {
 
   return (
-    <h1>Go look at your email</h1>
+    <Layout>
+      <h1>Go look at your email</h1>
+    </Layout>
   )
 }
