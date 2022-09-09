@@ -12,9 +12,9 @@ export default async function handler(req, res) {
       id: true,
       name: true,
       email: true,
-      role: true,  
+      role: true,
     },
   });
 
-  res.status(200).json({message: 'hello'});
+  return res.status(200).json(users);
 }

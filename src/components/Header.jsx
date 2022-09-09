@@ -5,7 +5,7 @@ import { signIn, signOut } from "next-auth/react";
 import Link from "next/link";
 
 export default function Header({ session }) {
-  const isAdmin = session?.role === "member";
+  const isAdmin = session?.role === "contributor";
   return (
     <div className="w-full flex justify-center bg-gray-100 border-b-2 border-gray-300 mb-11">
       <div className="w-full max-w-7xl flex justify-between p-4">
@@ -21,7 +21,9 @@ export default function Header({ session }) {
             <>
               <button className="mr-4">My tours</button>
               {isAdmin && (
-                <button className="mr-4">Users</button>
+                <Link href='/users'>
+                  <button className="mr-4">Users</button>
+                </Link>
               )}
               <Button muted onClick={() => signOut()}>Sign out</Button>
             </>

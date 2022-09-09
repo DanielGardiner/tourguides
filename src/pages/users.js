@@ -1,7 +1,11 @@
 import prisma from "../server/prismaClient";
 import { getSession, signIn, signOut } from "next-auth/react";
 import Layout from "../components/Layout";
-import { useMutation, useQuery, queryClient } from "react-query";
+import {
+  useMutation,
+  useQuery,
+  useQueryClient,
+} from "react-query";
 
 export async function getServerSideProps({ req, res }) {
   const session = await getSession({ req });
@@ -20,7 +24,7 @@ export async function getServerSideProps({ req, res }) {
       id: true,
       name: true,
       email: true,
-      role: true,  
+      role: true,
     },
   });
 
@@ -33,9 +37,11 @@ export async function getServerSideProps({ req, res }) {
 }
 
 const getUsers = async () => {
-  const users = await fetch("/api/user/read");
-  console.log('%c [qq1]: users ', 'background: #fbff00; color: #000000; font-size: 1rem; padding: 0.2rem 0; margin: 0.5rem;', '\n1', users, '\n\n');
-  return users
+  const response = await fetch("/api/user/read", {
+    method: "GET",
+  });
+  const users = await response.json();
+  return users;
 };
 
 const updateUser = async (user) => {
@@ -52,22 +58,18 @@ const updateUser = async (user) => {
 };
 
 export default function UsersPage({ users: initialUsers }) {
-  const users = useQuery(["users"], getUsers, {
-    // initialData: initialUsers,
-  }) || [];
+  const { data: users } =
+    useQuery(["users"], getUsers, {
+      initialData: initialUsers,
+    }) || [];
 
-  console.log('%c [qq]: users ', 'background: #fbff00; color: #000000; font-size: 1rem; padding: 0.2rem 0; margin: 0.5rem;', '\n', users, '\n\n');
+  const queryClient = useQueryClient();
 
-  const updateUserMutation = useMutation(updateUser, {
+  const updateUserMutation = useMutation((user) => updateUser(user), {
     onSuccess: () => {
-      queryClient.invalidateQueries('users')
+      queryClient.invalidateQueries("users");
     },
   });
-
-  // if(isLoading) return <p>Loading...</p>
-
-  return null
-
 
   return (
     <Layout>
@@ -83,7 +85,7 @@ export default function UsersPage({ users: initialUsers }) {
             {role !== "contributor" && (
               <button
                 className="mr-4 p-2 bg-red-600 text-white rounded-md shadow-sm"
-                onClick={() => updateUser(user)}
+                onClick={() => updateUserMutation.mutate(user)}
               >
                 Promote to contributor
               </button>
