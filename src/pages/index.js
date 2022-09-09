@@ -3,10 +3,13 @@ import Image from "next/image";
 import prisma from "../server/prismaClient";
 import { getSession, signIn, signOut } from "next-auth/react";
 import Layout from "../components/Layout";
+import Card from "../components/Card";
 
 export async function getServerSideProps({ req, res }) {
   const session = await getSession({ req });
-  const tours = await prisma.tour.findMany();
+  const tours = await prisma.tour.findMany({
+    take: 4,
+  });
 
   return {
     props: {
@@ -25,24 +28,15 @@ export default function Home({ session, tours }) {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <Layout>
-        <h1 className="text-3xl font-bold underline">Hello world!</h1>
-        <div className="">
-          {tours?.map((tour) => {
-            return (
-              <a
-                href="https://nextjs.org/docs"
-                className=""
-                key={tour?.id}
-              >
-                <h2>{tour?.name} &rarr;</h2>
-                <p>{tour?.city}</p>
-                <p>{tour?.descriptionShort}</p>
-              </a>
-            );
-          })}
+      <Layout session={session}>
+        <h1 className="text-3xl font-bold flex justify-center pb-10">
+          Tour Guides!
+        </h1>
+        <div className="grid grid-cols-1 gap-5 md:grid-cols-2">
+          {tours?.map((tour) => (
+            <Card tour={tour} key={tour.id} />
+          ))}
         </div>
-        <pre>{JSON.stringify(tours, null, 2)}</pre>
       </Layout>
     </>
   );

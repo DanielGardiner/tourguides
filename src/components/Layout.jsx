@@ -1,17 +1,11 @@
 import Header from "./Header";
 
-// {session ? (
-//   <button onClick={() => signOut()}>Sign out</button>
-//   ) : (
-//   <Button onClick={() => signIn()}>Sign in</Button>
-//   )}
-
-export default function Layout({ children }) {
+export default function Layout({ children, session }) {
   return (
     <>
-      <Header />
+      <Header session={session} />
       <div className="w-full flex justify-center min-h-screen">
-        <div className="w-full max-w-4xl">
+        <div className="w-full max-w-4xl px-4">
           {children}
         </div>
       </div>
