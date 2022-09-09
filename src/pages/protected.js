@@ -1,27 +1,27 @@
-import { getSession } from 'next-auth/react'
+import { getSession } from "next-auth/react";
+import Layout from "../components/Layout";
 
-export async function getServerSideProps({req, res}) {
-  const session = await getSession({ req })
-
+export async function getServerSideProps({ req, res }) {
+  const session = await getSession({ req });
 
   if (!session) {
     return {
       redirect: {
-        destination: '/',
+        destination: "/",
         permanent: false,
       },
-    }
+    };
   }
 
   return {
-    props: {
-    },
-  }
+    props: {},
+  };
 }
 
-export default function Home({tours}) {
-
+export default function Home({ tours }) {
   return (
-    <h1>Protected Page</h1>
-  )
+    <Layout>
+      <h1>Protected Page</h1>
+    </Layout>
+  );
 }
