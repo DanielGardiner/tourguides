@@ -8,6 +8,9 @@ export default async function handler(req, res) {
   }
 
   const users = await prisma.user.findMany({
+    orderBy: {
+      email: 'desc',
+    },
     select: {
       id: true,
       name: true,
