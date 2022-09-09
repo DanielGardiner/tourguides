@@ -1,9 +1,10 @@
 import Head from "next/head";
-import Image from "next/image";
+import Image from 'next/image'
 import prisma from "../server/prismaClient";
 import { getSession, signIn, signOut } from "next-auth/react";
 import Layout from "../components/Layout";
 import Card from "../components/Card";
+import HeroImage from "/public/images/hero-image.jpg";
 
 export async function getServerSideProps({ req, res }) {
   const session = await getSession({ req });
@@ -29,9 +30,26 @@ export default function Home({ session, tours }) {
       </Head>
 
       <Layout session={session}>
-        <h1 className="text-3xl font-bold flex justify-center pb-10">
-          Tour Guides!
-        </h1>
+        <div className="flex w-full mb-16 flex-col md:flex-row mt-[-1rem]">
+          <div className="w-[20%] flex items-center z-10">
+            <div className="w-full my-10 min-w-[300px] min-h-[300px] p-9 rounded-md border-gray-100 border-[1px] shadow-lg bg-white">
+              <h1 className="text-3xl font-bold text-center">Tour Guides!</h1>
+              <p className="mt-3 text-gray-900">Want to go somewhere new and fun?</p>
+            </div>
+          </div>
+          <div className="md:w-[80%]">
+            <div className="h-full w-full relative">
+              <Image
+                src={HeroImage}
+                alt="Picture of the author"
+                layout="fill"
+                objectFit="cover"
+                className="rounded-md shadow-sm"
+              />
+            </div>
+          </div>
+        </div>
+
         <div className="grid grid-cols-1 gap-5 md:grid-cols-2">
           {tours?.map((tour) => (
             <Card tour={tour} key={tour.id} />
