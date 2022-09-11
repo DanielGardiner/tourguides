@@ -1,10 +1,11 @@
 import Head from "next/head";
-import Image from 'next/image'
+import Image from "next/image";
 import prisma from "../server/prismaClient";
 import { getSession, signIn, signOut } from "next-auth/react";
 import Layout from "../components/Layout";
 import Card from "../components/Card";
 import HeroImage from "/public/images/hero-image.jpg";
+import Input from "../components/Input";
 
 export async function getServerSideProps({ req, res }) {
   const session = await getSession({ req });
@@ -32,9 +33,12 @@ export default function HomePage({ session, tours }) {
       <Layout session={session}>
         <div className="flex w-full mb-16 flex-col md:flex-row mt-[-1rem]">
           <div className="w-[20%] flex items-center z-10">
-            <div className="w-full my-10 min-w-[300px] min-h-[300px] p-9 rounded-md border-gray-100 border-[1px] shadow-lg bg-white">
+            <div className="w-full my-10 min-w-[300px]  p-9 rounded-md border-gray-100 border-[1px] shadow-lg bg-white">
               <h1 className="text-3xl font-bold text-center">Tour Guides!</h1>
-              <p className="mt-3 text-gray-900">Want to go somewhere new and fun?</p>
+              <p className="mt-4 text-gray-900">Want to go somewhere new and fun?</p>
+              <div className="mt-4 w-full">
+                <Input placeholder="Go somewhere fun?" />
+              </div>
             </div>
           </div>
           <div className="md:w-[80%]">

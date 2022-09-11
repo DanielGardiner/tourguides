@@ -27,7 +27,7 @@ export default function SignInPage() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    signIn("email", { email: email || "daniel.gardiner.tech@gmail.com" });
+    signIn("email", { email: email || "daniel.gardiner.tech+superadmin@gmail.com" });
   };
 
   const handleEmailChange = (e) => setEmail(e.target.value);

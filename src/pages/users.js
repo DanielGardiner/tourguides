@@ -1,32 +1,17 @@
 import prisma from "../server/prismaClient";
 import { getSession, signIn, signOut } from "next-auth/react";
 import Layout from "../components/Layout";
-import {
-  useMutation,
-  useQuery,
-  useQueryClient,
-} from "react-query";
+import { useMutation, useQuery, useQueryClient } from "react-query";
+import { userRoles } from "../constants.js";
+import getUsersDb from "../server/endpoints/user/getUsers";
 
 export async function getServerSideProps({ req, res }) {
   const session = await getSession({ req });
-
   if (!session) {
-    return {
-      redirect: {
-        destination: "/",
-        permanent: false,
-      },
-    };
+    return { redirect: { destination: "/" } };
   }
 
-  const users = await prisma.user.findMany({
-    select: {
-      id: true,
-      name: true,
-      email: true,
-      role: true,
-    },
-  });
+  const users = await getUsersDb();
 
   return {
     props: {
@@ -37,7 +22,7 @@ export async function getServerSideProps({ req, res }) {
 }
 
 const getUsers = async () => {
-  const response = await fetch("/api/user/read", {
+  const response = await fetch("/api/user", {
     method: "GET",
   });
   const users = await response.json();
@@ -82,7 +67,7 @@ export default function UsersPage({ users: initialUsers }) {
             <div className="mr-4 p-2 border-[1px] border-gray-600 rounded-md shadow-sm">
               {role}
             </div>
-            {role !== "contributor" && (
+            {role === userRoles.MEMBER && (
               <button
                 className="mr-4 p-2 bg-red-600 text-white rounded-md shadow-sm"
                 onClick={() => updateUserMutation.mutate(user)}
