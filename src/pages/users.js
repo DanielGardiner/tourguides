@@ -1,9 +1,10 @@
 import prisma from "../server/prismaClient";
 import { getSession, signIn, signOut } from "next-auth/react";
 import Layout from "../components/Layout";
-import { useMutation, useQuery, useQueryClient } from "react-query";
 import { userRoles } from "../constants.js";
 import getUsersDb from "../server/endpoints/user/getUsers";
+import useGetUsers from "../hooks/useGetUsers";
+import useUpdateUser from "../hooks/useUpdateUser";
 
 export async function getServerSideProps({ req, res }) {
   const session = await getSession({ req });
@@ -11,6 +12,9 @@ export async function getServerSideProps({ req, res }) {
     return { redirect: { destination: "/" } };
   }
 
+  // NOTE: this blocks the page from rendering so the first thing the user sees is the page witht the dynamic content already rendered
+  // i.e. without a loading spinner flash, if however this request takes a while to resolve its better to just
+  // show the page with a loading spinner
   const users = await getUsersDb();
 
   return {
@@ -21,40 +25,10 @@ export async function getServerSideProps({ req, res }) {
   };
 }
 
-const getUsers = async () => {
-  const response = await fetch("/api/user", {
-    method: "GET",
-  });
-  const users = await response.json();
-  return users;
-};
-
-const updateUser = async (user) => {
-  await fetch("/api/user/update", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      id: user?.id,
-      role: "contributor",
-    }),
-  });
-};
-
 export default function UsersPage({ users: initialUsers }) {
-  const { data: users } =
-    useQuery(["users"], getUsers, {
-      initialData: initialUsers,
-    }) || [];
+  const { data: users } = useGetUsers({ initialUsers: initialUsers });
 
-  const queryClient = useQueryClient();
-
-  const updateUserMutation = useMutation((user) => updateUser(user), {
-    onSuccess: () => {
-      queryClient.invalidateQueries("users");
-    },
-  });
+  const updateUserMutation = useUpdateUser();
 
   return (
     <Layout>
@@ -71,6 +45,7 @@ export default function UsersPage({ users: initialUsers }) {
               <button
                 className="mr-4 p-2 bg-red-600 text-white rounded-md shadow-sm"
                 onClick={() => updateUserMutation.mutate(user)}
+                disabled={updateUserMutation.isLoading}
               >
                 Promote to contributor
               </button>
