@@ -1,5 +1,5 @@
 import prisma from "../server/prismaClient";
-import { getSession, signIn, signOut } from "next-auth/react";
+import { getSession } from "next-auth/react";
 import Layout from "../components/Layout";
 import { userRoles } from "../constants";
 import userService from "../server/services/user";
@@ -8,6 +8,15 @@ import useUpdateUser from "../hooks/useUpdateUser";
 
 export async function getServerSideProps({ req, res }) {
   const session = await getSession({ req });
+  if (!session) return { redirect: { destination: '/' } }
+
+  await redirectIfNoSession({session})
+  await checkSessionRole({req, role: [userRoles.ADMIN, userRoles.SUPER_ADMIN]})
+
+  // await redirectIfNoSession({session})
+  // await checkSessionRole({req, role: [userRoles.ADMIN, userRoles.SUPER_ADMIN]})
+
+
   const isAdmin = [userRoles.ADMIN, userRoles.SUPER_ADMIN].includes(
     session?.role
   );
