@@ -14,13 +14,15 @@ export async function getServerSideProps({ req, res }) {
   }
 
   return {
-    props: {},
+    props: {
+      session
+    },
   };
 }
 
-export default function ProtectedPage({ tours }) {
+export default function ProtectedPage({ tours, session }) {
   return (
-    <Layout>
+    <Layout session={session}>
       <h1>Protected Page</h1>
     </Layout>
   );

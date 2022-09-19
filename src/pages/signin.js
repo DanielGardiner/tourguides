@@ -4,36 +4,43 @@ import { signIn, signOut } from "next-auth/react";
 import Layout from "../components/Layout";
 import Button from "../components/buttons/Button";
 import Input from "../components/Input";
+import { checkNoSession } from "../server/services/auth";
 
 export async function getServerSideProps({ req, res }) {
-  const session = await getSession({ req });
+  try {
+    const session = await getSession({ req });
+    checkNoSession({ session });
 
-  if (session) {
+    return {
+      props: {
+        session,
+      },
+    };
+  } catch (e) {
+    console.error(e);
+
     return {
       redirect: {
         destination: "/",
-        permanent: false,
       },
     };
   }
-
-  return {
-    props: {},
-  };
 }
 
-export default function SignInPage() {
+export default function SignInPage({ session }) {
   const [email, setEmail] = useState("");
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    signIn("email", { email: email || "daniel.gardiner.tech+superadmin@gmail.com" });
+    signIn("email", {
+      email: email || "daniel.gardiner.tech+superadmin@gmail.com",
+    });
   };
 
   const handleEmailChange = (e) => setEmail(e.target.value);
 
   return (
-    <Layout>
+    <Layout session={session}>
       <form onSubmit={handleSubmit}>
         <div className="max-w-sm">
           <label

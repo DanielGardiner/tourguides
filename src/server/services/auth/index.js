@@ -1,7 +1,4 @@
-import redirectIfNoSession from './redirectIfNoSession'
-import checkSessionRole from './checkSessionRole'
+import checkSession from "./checkSession";
+import checkNoSession from "./checkNoSession";
 
-export {
-  redirectIfNoSession,
-  checkSessionRole,
-}
+export { checkSession, checkNoSession };

@@ -5,42 +5,48 @@ import { userRoles } from "../constants";
 import userService from "../server/services/user";
 import useGetUsers from "../hooks/useGetUsers";
 import useUpdateUser from "../hooks/useUpdateUser";
+import { checkSession } from "../server/services/auth";
 
 export async function getServerSideProps({ req, res }) {
-  const session = await getSession({ req });
-  if (!session) return { redirect: { destination: '/' } }
-
-  await redirectIfNoSession({session})
-  await checkSessionRole({req, role: [userRoles.ADMIN, userRoles.SUPER_ADMIN]})
-
-  // await redirectIfNoSession({session})
-  // await checkSessionRole({req, role: [userRoles.ADMIN, userRoles.SUPER_ADMIN]})
-
-
-  const isAdmin = [userRoles.ADMIN, userRoles.SUPER_ADMIN].includes(
-    session?.role
-  );
-  if (!session || !isAdmin) {
-    return { redirect: { destination: "/" } };
-  }
-
-  // NOTE: this blocks the page from rendering so the first thing the user sees is the page witht the dynamic content already rendered
-  // i.e. without a loading spinner flash, if however this request takes a while to resolve its better to just
-  // show the page with a loading spinner
-  const users = await userService.getUsers();
-
-  return {
-    props: {
+  try {
+    const session = await getSession({ req });
+    checkSession({
       session,
-      users,
-    },
-  };
+      hasRole: [userRoles.ADMIN, userRoles.SUPER_ADMIN],
+    });
+
+    // NOTE: this blocks the page from rendering so the first thing the user sees is the page witht the dynamic content already rendered
+    // i.e. without a loading spinner flash, if however this request takes a while to resolve its better to just
+    // show the page with a loading spinner
+    const users = await userService.getUsers();
+
+    return {
+      props: {
+        session,
+        users,
+      },
+    };
+  } catch (e) {
+    console.error(e);
+
+    // If error redirect user to homepage
+    return {
+      redirect: {
+        destination: "/",
+      },
+    };
+  }
 }
 
 export default function UsersPage({ session, users: initialUsers }) {
   const { data: users } = useGetUsers({ initialUsers: initialUsers });
 
   const updateUserMutation = useUpdateUser();
+
+  const handleRoleChange = (event, user) => {
+    const newUser = { ...user, role: event.target.value };
+    updateUserMutation.mutate(newUser);
+  }
 
   return (
     <Layout session={session}>
@@ -55,10 +61,7 @@ export default function UsersPage({ session, users: initialUsers }) {
             </div>
             <select
               className="mr-4 p-2 bg-red-600 text-white rounded-md shadow-sm"
-              onChange={(e) => {
-                const newUser = { ...user, role: e.target.value };
-                updateUserMutation.mutate(newUser);
-              }}
+              onChange={(event) => handleRoleChange(event, user)}
               disabled={updateUserMutation.isLoading}
             >
               {Object.values(userRoles)?.map((roleOption) => (

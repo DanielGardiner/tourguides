@@ -1,30 +1,31 @@
-import { getSession } from 'next-auth/react'
-import Layout from '../components/Layout'
+import { getSession } from "next-auth/react";
+import Layout from "../components/Layout";
+import { checkNoSession } from "../server/services/auth";
 
+export async function getServerSideProps({ req, res }) {
+  try {
+    const session = await getSession({ req });
+    checkNoSession({ session });
 
-export async function getServerSideProps({req, res}) {
-  const session = await getSession({ req })
+    return {
+      props: {
+        session,
+      },
+    };
+  } catch (e) {
+    console.error(e);
 
-  if (session) {
     return {
       redirect: {
-        destination: '/',
-        permanent: false,
+        destination: "/",
       },
-    }
-  }
-
-  return {
-    props: {
-    },
+    };
   }
 }
-
-export default function VerifyPage({tours}) {
-
+export default function VerifyPage({ tours, session }) {
   return (
-    <Layout>
+    <Layout session={session}>
       <h1>Go look at your email</h1>
     </Layout>
-  )
+  );
 }
