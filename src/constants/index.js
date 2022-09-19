@@ -5,4 +5,3 @@ export const userRoles = {
   ADMIN: 'admin',
   SUPER_ADMIN: 'super admin',
 }
-
