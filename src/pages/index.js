@@ -11,6 +11,14 @@ export async function getServerSideProps({ req, res }) {
   const session = await getSession({ req });
   const tours = await prisma.tour.findMany({
     take: 4,
+    orderBy: {
+      createdAt: "desc",
+    },
+    select: {
+      id: true,
+      name: true,
+      descriptionShort: true,
+    }
   });
 
   return {

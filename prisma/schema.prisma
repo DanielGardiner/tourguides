@@ -60,8 +60,10 @@ model Tour {
   id               Int      @id @default(autoincrement())
   name             String
   descriptionShort String?
-  city             String
+  imageLink        String?
   steps            Step[]
+  city             City     @relation(fields: [cityId], references: [id])
+  cityId           Int
   createdAt        DateTime @default(now())
   updatedAt        DateTime @updatedAt
 }
@@ -79,4 +81,22 @@ model Step {
   updatedAt   DateTime @updatedAt
 
   @@unique([weight, tourId])
+}
+
+model City {
+  id        Int     @id @default(autoincrement())
+  name      String
+  country   Country @relation(fields: [countryId], references: [id])
+  countryId Int
+  tours     Tour[]
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Country {
+  id     Int    @id @default(autoincrement())
+  name   String
+  cities City[]
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
 }

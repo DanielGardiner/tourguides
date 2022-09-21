@@ -1,18 +1,14 @@
 import { getSession } from "next-auth/react";
 import Layout from "../components/Layout";
 import tourService from "../server/services/tour";
-
 import useGetTours from "../hooks/useGetTours";
-
-import useUpdateUser from "../hooks/useUpdateUser";
-import { checkSession } from "../server/services/auth";
+import Card from "../components/Card";
 
 export async function getServerSideProps({ req, res }) {
   try {
     const session = await getSession({ req });
 
     const tours = await tourService.getTours();
-
 
     return {
       props: {
@@ -37,9 +33,11 @@ export default function ToursPage({ session, tours: initialTours }) {
 
   return (
     <Layout session={session}>
-      <pre>
-        {JSON.stringify(tours, null, 2)}
-      </pre>
+      <div className="grid grid-cols-1 gap-5 md:grid-cols-2">
+          {tours?.map((tour) => (
+            <Card tour={tour} key={tour.id} />
+          ))}
+        </div>
     </Layout>
   );
 }
