@@ -4,9 +4,8 @@ datasource db {
 }
 
 generator client {
-  provider        = "prisma-client-js"
+  provider = "prisma-client-js"
 }
-
 
 model Account {
   id                 String  @id @default(cuid())
@@ -45,7 +44,7 @@ model User {
   accounts      Account[]
   sessions      Session[]
 
-  role          String @default("member")
+  role String @default("member")
 }
 
 model VerificationToken {
@@ -56,9 +55,28 @@ model VerificationToken {
 
   @@unique([identifier, token])
 }
+
 model Tour {
-  id                   String    @id @default(cuid())
-  name                 String
-  descriptionShort     String?
-  city                 String
+  id               Int      @id @default(autoincrement())
+  name             String
+  descriptionShort String?
+  city             String
+  steps            Step[]
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+}
+
+model Step {
+  id          Int      @id @default(autoincrement())
+  weight      Int      @default(autoincrement())
+  audioLink   String?
+  description String?
+  imageLink   String?
+  isFree      Boolean  @default(false)
+  tour        Tour     @relation(fields: [tourId], references: [id])
+  tourId      Int
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@unique([weight, tourId])
 }

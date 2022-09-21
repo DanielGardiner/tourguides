@@ -17,7 +17,9 @@ export default function Header({ session }) {
         </div>
         <div className="flex items-center">
           <button className="mr-4">About</button>
-          <button className="mr-4">Explore</button>
+          <Link href='/tours'>
+            <button className="mr-4">Tours</button>
+          </Link>
           {session ? (
             <>
               <button className="mr-4">My tours</button>
