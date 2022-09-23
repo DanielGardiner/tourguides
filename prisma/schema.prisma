@@ -70,6 +70,7 @@ model Tour {
 
 model Step {
   id          Int      @id @default(autoincrement())
+  name        String
   weight      Int
   audioLink   String?
   description String?
