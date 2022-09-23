@@ -18,6 +18,11 @@ export async function getServerSideProps({ req, res }) {
       id: true,
       name: true,
       descriptionShort: true,
+      city: {
+        select: {
+          name: true,
+        }
+      }
     }
   });
 

@@ -9,6 +9,11 @@ export default async function getTours() {
       id: true,
       name: true,
       descriptionShort: true,
+      city: {
+        select: {
+          name: true,
+        }
+      }
     }
   });
 

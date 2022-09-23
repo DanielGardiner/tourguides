@@ -50,6 +50,49 @@ const countries = [
   },
 ];
 
+const dummyTours = [
+  {
+    name: "Great Tour",
+    descriptionShort: "Egestas purus viverra accumsan in nisl nisi scelerisque eu. Quam viverra orci sagittis eu volutpat. Sed vulputate odio ut enim. Suspendisse potenti nullam ac tortor vitae purus faucibus.",
+    imageLink: "https://a.cdn-hotels.com/gdcs/production72/d3/a335d920-1a22-4f74-95be-e945479a8d8c.jpg",
+  },
+  {
+    name: "Another Fun Tour",
+    descriptionShort: "Consectetur lorem donec massa sapien faucibus et. Tempus imperdiet nulla malesuada pellentesque elit. Interdum velit euismod in pellentesque massa placerat duis ultricies lacus.",
+    imageLink: "https://a.cdn-hotels.com/gdcs/production72/d3/a335d920-1a22-4f74-95be-e945479a8d8c.jpg",
+  },
+  {
+    name: "Old City Tour",
+    descriptionShort: "Mauris cursus mattis molestie a iaculis at erat pellentesque adipiscing.",
+    imageLink: "https://a.cdn-hotels.com/gdcs/production72/d3/a335d920-1a22-4f74-95be-e945479a8d8c.jpg",
+  },
+  {
+    name: "Amazing Tour",
+    descriptionShort: "Non consectetur a erat nam at lectus. Nisl pretium fusce id velit ut tortor pretium viverra. Ac feugiat sed lectus vestibulum mattis.",
+    imageLink: "https://a.cdn-hotels.com/gdcs/production72/d3/a335d920-1a22-4f74-95be-e945479a8d8c.jpg",
+  },
+  {
+    name: "Fun Fun Tour",
+    descriptionShort: "Nisi lacus sed viverra tellus in hac habitasse. Fringilla phasellus faucibus scelerisque eleifend donec pretium vulputate sapien nec. Viverra maecenas accumsan lacus vel facilisis. Bibendum arcu vitae elementum curabitur vitae nunc sed. Consequat nisl vel pretium lectus quam id leo in.",
+    imageLink: "https://a.cdn-hotels.com/gdcs/production72/d3/a335d920-1a22-4f74-95be-e945479a8d8c.jpg",
+  },
+  {
+    name: "See New Things",
+    descriptionShort: "Erat imperdiet sed euismod nisi porta. Semper feugiat nibh sed pulvinar proin. Quam vulputate dignissim suspendisse in est ante in nibh mauris.",
+    imageLink: "https://a.cdn-hotels.com/gdcs/production72/d3/a335d920-1a22-4f74-95be-e945479a8d8c.jpg",
+  },
+  {
+    name: "Beer Tour",
+    descriptionShort: "Neque laoreet suspendisse interdum consectetur.",
+    imageLink: "https://a.cdn-hotels.com/gdcs/production72/d3/a335d920-1a22-4f74-95be-e945479a8d8c.jpg",
+  },
+  {
+    name: "Art Tour",
+    descriptionShort: "Nisl vel pretium lectus quam id leo. Tellus elementum sagittis vitae et leo duis. Est lorem ipsum dolor sit amet consectetur adipiscing.",
+    imageLink: "https://a.cdn-hotels.com/gdcs/production72/d3/a335d920-1a22-4f74-95be-e945479a8d8c.jpg",
+  },
+]
+
 async function main() {
 
   // Loop over all countries and upsert into the database
@@ -80,6 +123,23 @@ async function main() {
       });
     }
   }
+
+
+
+  // Add dummy tours 
+  // - append city id onto each dummy tour
+  const allCities = await prisma.city.findMany()
+  const allCityIDs = allCities?.map(c => c.id)
+  const dummyToursWithCity = dummyTours?.map((d) => {
+    const randomCityId = allCityIDs[Math.floor(Math.random()*allCityIDs.length)];
+    d.cityId = randomCityId
+    return d
+  })
+  // - add to database
+  await prisma.tour.createMany({
+    data: dummyToursWithCity,
+    skipDuplicates: true,
+  })
 }
 
 main()
