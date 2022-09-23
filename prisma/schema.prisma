@@ -70,7 +70,7 @@ model Tour {
 
 model Step {
   id          Int      @id @default(autoincrement())
-  weight      Int      @default(autoincrement())
+  weight      Int
   audioLink   String?
   description String?
   imageLink   String?
