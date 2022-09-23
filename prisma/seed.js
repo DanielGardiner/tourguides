@@ -29,39 +29,31 @@ const cities = {
   MUNICH: {
     name: "Munich",
   },
-}
+};
 
-const locations = [
+const countries = [
   {
-    country: {
-      name: "Ireland",
-      cities: [cities.BELFAST, cities.DUBLIN]
-    },
+    name: "Ireland",
+    cities: [cities.BELFAST, cities.DUBLIN],
   },
   {
-    country: {
-      name: "United Kingdom",
-      cities: [cities.BRISTOL, cities.LONDON]
-    },
+    name: "United Kingdom",
+    cities: [cities.BRISTOL, cities.LONDON],
   },
   {
-    country: {
-      name: "Spain",
-      cities: [cities.MADRID, cities.ALICANTE],
-    },
+    name: "Spain",
+    cities: [cities.MADRID, cities.ALICANTE],
   },
   {
-    country: {
-      name: "Germany",
-      cities: [cities.BERLIN, cities.MUNICH],
-    },
+    name: "Germany",
+    cities: [cities.BERLIN, cities.MUNICH],
   },
 ];
 
 async function main() {
-  for (const location of locations) {
-    const country = location.country;
 
+  // Loop over all countries and upsert into the database
+  for (const country of countries) {
     const countryItem = await prisma.country.upsert({
       where: { name: country.name },
       update: {
@@ -72,20 +64,18 @@ async function main() {
       },
     });
 
+    // Loop over all cities within the country and upsert into the database
     const cities = country.cities;
-
     for (const city of cities) {
       await prisma.city.upsert({
         where: { name: city.name },
         update: {
           name: city.name,
           countryId: countryItem.id,
-          test: city.test,
         },
         create: {
           name: city.name,
           countryId: countryItem.id,
-          test: city.test,
         },
       });
     }
