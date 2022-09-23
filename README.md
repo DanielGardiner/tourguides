@@ -26,3 +26,4 @@ The following enviornment variables are required
 ## Database setup
 
 - `npx prisma db push`
+- `npx prisma db seed`

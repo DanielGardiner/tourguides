@@ -84,19 +84,19 @@ model Step {
 }
 
 model City {
-  id        Int     @id @default(autoincrement())
-  name      String
-  country   Country @relation(fields: [countryId], references: [id])
+  id        Int      @id @default(autoincrement())
+  name      String   @unique
+  country   Country  @relation(fields: [countryId], references: [id])
   countryId Int
   tours     Tour[]
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model Country {
-  id     Int    @id @default(autoincrement())
-  name   String
-  cities City[]
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  id        Int      @id @default(autoincrement())
+  name      String   @unique
+  cities    City[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
