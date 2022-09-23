@@ -4,57 +4,56 @@
 const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 
+const cities = {
+  BELFAST: {
+    name: "Belfast",
+  },
+  DUBLIN: {
+    name: "Dublin",
+  },
+  BRISTOL: {
+    name: "Bristol",
+  },
+  LONDON: {
+    name: "London",
+  },
+  MADRID: {
+    name: "Madrid",
+  },
+  ALICANTE: {
+    name: "Alicante",
+  },
+  BERLIN: {
+    name: "Berlin",
+  },
+  MUNICH: {
+    name: "Munich",
+  },
+}
+
 const locations = [
   {
     country: {
       name: "Ireland",
-      cities: [
-        {
-          name: "Belfast",
-        },
-        {
-          name: "Dublin",
-        },
-      ],
+      cities: [cities.BELFAST, cities.DUBLIN]
     },
   },
   {
     country: {
       name: "United Kingdom",
-      cities: [
-        {
-          name: "Bristol",
-        },
-        {
-          name: "London",
-        },
-      ],
+      cities: [cities.BRISTOL, cities.LONDON]
     },
   },
   {
     country: {
       name: "Spain",
-      cities: [
-        {
-          name: "Madrid",
-        },
-        {
-          name: "Alicante",
-        },
-      ],
+      cities: [cities.MADRID, cities.ALICANTE],
     },
   },
   {
     country: {
       name: "Germany",
-      cities: [
-        {
-          name: "Berlin",
-        },
-        {
-          name: "Munich",
-        },
-      ],
+      cities: [cities.BERLIN, cities.MUNICH],
     },
   },
 ];
