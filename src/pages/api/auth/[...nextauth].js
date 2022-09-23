@@ -18,8 +18,8 @@ const options = {
     }),
   ],
   pages: {
-    signIn: "/signin",
-    verifyRequest: "/verify", // (used for check email message)
+    signIn: "/auth/signin",
+    verifyRequest: "/auth/verify", // (used for check email message)
   },
   callbacks: {
     session: async (session) => {

@@ -1,10 +1,10 @@
 import { useState } from "react";
 import { getSession } from "next-auth/react";
 import { signIn, signOut } from "next-auth/react";
-import Layout from "../components/Layout";
-import Button from "../components/buttons/Button";
-import Input from "../components/Input";
-import { checkNoSession } from "../server/services/auth";
+import Layout from "../../components/Layout";
+import Button from "../../components/buttons/Button";
+import Input from "../../components/Input";
+import { checkNoSession } from "../../server/services/auth";
 
 export async function getServerSideProps({ req, res }) {
   try {

@@ -1,6 +1,6 @@
 import { getSession } from "next-auth/react";
-import Layout from "../components/Layout";
-import { checkNoSession } from "../server/services/auth";
+import Layout from "../../components/Layout";
+import { checkNoSession } from "../../server/services/auth";
 
 export async function getServerSideProps({ req, res }) {
   try {

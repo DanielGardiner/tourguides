@@ -31,7 +31,7 @@ export default function Header({ session }) {
               <Button muted onClick={() => signOut()}>Sign out</Button>
             </>
           ) : (
-            <Link href='/signin' className="cursor-pointer">
+            <Link href='/auth/signin' className="cursor-pointer">
               <Button>Sign in</Button>
             </Link>
           )}
