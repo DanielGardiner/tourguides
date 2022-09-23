@@ -170,6 +170,12 @@ async function main() {
     }
   }
 
+  if(process.env.ENV !== "local") {
+    return;
+  }
+
+  console.log('%c [qq]: 1 ', 'background: #fbff00; color: #000000; font-size: 1rem; padding: 0.2rem 0; margin: 0.5rem;');
+
   // Add dummy tours 
   // - append city id onto each dummy tour
   const allCities = await prisma.city.findMany()
