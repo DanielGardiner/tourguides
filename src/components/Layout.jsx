@@ -1,6 +1,10 @@
+import useGetSession from "../hooks/useGetSession";
 import Header from "./Header";
 
-export default function Layout({ children, session }) {
+export default function Layout({ children }) {
+  const session = useGetSession()
+
+
   return (
     <>
       <Header session={session} />
