@@ -1,7 +1,10 @@
 import { useQuery } from "react-query";
+import { endpoints } from "../constants";
+
+const url = endpoints.session
 
 const getSession = async () => {
-  const response = await fetch(`/api/auth/session`, {
+  const response = await fetch(url, {
     method: "GET",
   });
   const session = await response.json();
