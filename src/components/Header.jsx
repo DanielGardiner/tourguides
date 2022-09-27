@@ -12,7 +12,9 @@ export default function Header({ session }) {
       <div className="w-full max-w-7xl flex justify-between p-4">
         <div className="flex items-center">
           <Link href='/' >
-            <Image src={TravelIcon} alt="Vercel Logo" width={40} height={40} className="cursor-pointer" />
+            <span>
+              <Image src={TravelIcon} alt="Vercel Logo" width={40} height={40} className="cursor-pointer" />
+            </span>
           </Link>
         </div>
         <div className="flex items-center">
@@ -28,7 +30,7 @@ export default function Header({ session }) {
                   <button className="mr-4">Users</button>
                 </Link>
               )}
-              <Button muted onClick={() => signOut()}>Sign out</Button>
+              <Button muted={true} onClick={() => signOut()}>Sign out</Button>
             </>
           ) : (
             <Link href='/auth/signin' className="cursor-pointer">
