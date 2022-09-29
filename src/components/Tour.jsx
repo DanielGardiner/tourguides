@@ -1,8 +1,11 @@
 import Image from "next/image";
 import useGetTour from "../hooks/useGetTour";
+import LoadingSpinner from "./LoadingSpinner";
 
 export default function Tour({ tourId }) {
-  const { data: tour } = useGetTour(tourId, { suspense: true })
+  const { data: tour, isLoading } = useGetTour(tourId)
+
+  if (isLoading) return <LoadingSpinner />
 
   return (
     <>

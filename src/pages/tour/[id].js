@@ -7,8 +7,10 @@ import Tour from "../../components/Tour";
 import { Suspense } from "react";
 
 export default function TourPage() {
-  const { query, isReady } = useRouter();
+  const { query } = useRouter();
   const { id } = query;
 
-  return <>{isReady ? <Tour tourId={id} /> : <LoadingSpinner />}</>;
+  if(!id) return <LoadingSpinner />
+
+  return <Tour tourId={id} />
 }

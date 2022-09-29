@@ -7,9 +7,10 @@ import useGetUsers from "../hooks/useGetUsers";
 import useUpdateUser from "../hooks/useUpdateUser";
 import { checkSession } from "../server/services/auth";
 import useGetSession from "../hooks/useGetSession";
+import LoadingSpinner from "./LoadingSpinner";
 
 export default function UsersTable() {
-  const { data: users } = useGetUsers();
+  const { data: users, isLoading } = useGetUsers();
 
   const updateUserMutation = useUpdateUser();
 
@@ -17,6 +18,8 @@ export default function UsersTable() {
     const newUser = { ...user, role: event.target.value };
     updateUserMutation.mutate(newUser);
   };
+
+  if(isLoading) return <LoadingSpinner />
 
   return (
     <>

@@ -3,5 +3,8 @@ import UsersTable from "../components/UsersTable";
 
 export default function UsersPage() {
   const { data: session } = useGetSession({ required: true });
-  return <>{session && <UsersTable />}</>;
+
+  if (!session) return null;
+
+  return <UsersTable />;
 }

@@ -13,9 +13,7 @@ function MyApp({ Component, pageProps }) {
     <SessionProvider session={pageProps.session}>
       <QueryClientProvider client={queryClient}>
         <Layout>
-          <Suspense fallback={<LoadingSpinner />}>
-            <Component {...pageProps} />
-          </Suspense>
+          <Component {...pageProps} />
         </Layout>
         <ReactQueryDevtools initialIsOpen={false} />
       </QueryClientProvider>
