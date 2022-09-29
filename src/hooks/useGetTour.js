@@ -12,5 +12,5 @@ const getTour = async (tourId) => {
 };
 
 export default function useGetUser(tourId, options) {
-  return useQuery(["tour", tourId], getTour, options);
+  return useQuery(["tour", tourId], () => getTour(tourId), options);
 }

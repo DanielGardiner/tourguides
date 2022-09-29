@@ -1,54 +1,11 @@
-import { getSession } from "next-auth/react";
-import Layout from "../components/Layout";
-import tourService from "../server/services/tour";
-import { userRoles } from "../constants";
 import Image from "next/image";
+import useGetTour from "../hooks/useGetTour";
 
-export async function getServerSideProps({ req, res, query }) {
-  try {
-    const session = await getSession({ req });
+export default function Tour({ tourId }) {
+  const { data: tour } = useGetTour(tourId, { suspense: true })
 
-    const { id } = query;
-
-    const idInt = parseInt(id, 10);
-
-    const tour = await tourService.getTour(idInt);
-
-    const canViewProtectedSteps = [
-      userRoles.PREMIUM_MEMBER,
-      userRoles.CONTRIBUTOR,
-      userRoles.ADMIN,
-      userRoles.SUPER_ADMIN,
-    ].includes(session?.role);
-
-    if (!canViewProtectedSteps) {
-      tour.steps.filter((step) => {
-        step.audioLink = step.isFree ? step.audioLink : null;
-        return step;
-      });
-    }
-
-    return {
-      props: {
-        session,
-        tour,
-      },
-    };
-  } catch (e) {
-    console.error(e);
-
-    // If error redirect user to homepage
-    return {
-      redirect: {
-        destination: "/",
-      },
-    };
-  }
-}
-
-export default function TourPage({ session, tour }) {
   return (
-    <Layout session={session}>
+    <>
       <h1 className="text-3xl font-bold text-center mb-8">{tour.name}</h1>
       <p className="my-3 max-w-xl mx-auto">{tour.descriptionShort}</p>
       <div>
@@ -89,6 +46,6 @@ export default function TourPage({ session, tour }) {
           )
         )}
       </div>
-    </Layout>
+    </>
   );
 }
