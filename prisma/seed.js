@@ -285,7 +285,7 @@ async function main() {
     }
   }
 
-  if (process.env.ENV !== "local") {
+  if (process.env.NODE_ENV !== "local") {
     return;
   }
 
