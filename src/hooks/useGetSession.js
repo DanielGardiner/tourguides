@@ -1,7 +1,8 @@
+import { useRouter } from "next/router";
 import { useQuery } from "react-query";
 import { endpoints } from "../constants";
 
-const url = endpoints.session
+const url = endpoints.session;
 
 const getSession = async () => {
   const response = await fetch(url, {
@@ -14,6 +15,16 @@ const getSession = async () => {
   return null;
 };
 
-export default function useGetSession(options) {
-  return useQuery(["session"], getSession, options);
+export default function useGetSession({ required = false, ...rest } = {}) {
+  const router = useRouter();
+
+  return useQuery(["session"], getSession, {
+    onSettled: (data) => {
+      if (required && data === null) {
+        router.push("/");
+      }
+      return true;
+    },
+    ...rest,
+  });
 }
