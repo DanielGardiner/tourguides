@@ -4,11 +4,5 @@ import LoadingSpinner from "../components/LoadingSpinner";
 import ToursGrid from "../components/ToursGrid";
 
 export default function ToursPage() {
-  return (
-    <Layout>
-      <Suspense fallback={<LoadingSpinner />}>
-        <ToursGrid />
-      </Suspense>
-    </Layout>
-  );
+  return <ToursGrid />;
 }

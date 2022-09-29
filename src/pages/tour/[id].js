@@ -10,11 +10,5 @@ export default function TourPage() {
   const { query, isReady } = useRouter();
   const { id } = query;
 
-  return (
-    <Layout>
-      <Suspense fallback={<LoadingSpinner />}>
-        {isReady ? <Tour tourId={id} /> : <LoadingSpinner />}
-      </Suspense>
-    </Layout>
-  );
+  return <>{isReady ? <Tour tourId={id} /> : <LoadingSpinner />}</>;
 }

@@ -46,10 +46,10 @@ export default function UsersPage({ session, users: initialUsers }) {
   const handleRoleChange = (event, user) => {
     const newUser = { ...user, role: event.target.value };
     updateUserMutation.mutate(newUser);
-  }
+  };
 
   return (
-    <Layout session={session}>
+    <>
       {users?.map((user) => {
         const { id, name, email, role } = user;
         return (
@@ -78,6 +78,6 @@ export default function UsersPage({ session, users: initialUsers }) {
           </div>
         );
       })}
-    </Layout>
+    </>
   );
 }
