@@ -15,13 +15,17 @@ const getSession = async () => {
   return null;
 };
 
-export default function useGetSession({ required = false, ...rest } = {}) {
+export default function useGetSession({
+  required = false,
+  redirectTo = "/",
+  ...rest
+} = {}) {
   const router = useRouter();
 
   return useQuery(["session"], getSession, {
     onSettled: (data) => {
       if (required && data === null) {
-        router.push("/");
+        router.push(redirectTo);
       }
       return true;
     },
