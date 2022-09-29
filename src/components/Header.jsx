@@ -21,7 +21,9 @@ export default function Header() {
           </Link>
         </div>
         <div className="flex items-center">
-          <button className="mr-4">About</button>
+          <Link href='/about'>
+            <button className="mr-4">About</button>
+          </Link>
           <Link href='/tours'>
             <button className="mr-4">Tours</button>
           </Link>

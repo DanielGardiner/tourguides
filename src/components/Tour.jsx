@@ -1,6 +1,8 @@
 import Image from "next/image";
 import useGetTour from "../hooks/useGetTour";
 import LoadingSpinner from "./LoadingSpinner";
+import LockIcon from "/public/icons/lock-icon.png";
+
 
 export default function Tour({ tourId }) {
   const { data: tour, isLoading } = useGetTour(tourId)
@@ -28,8 +30,14 @@ export default function Tour({ tourId }) {
                       src={`https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/${audioLink}&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true`}
                     />
                   ) : (
-                    <div className="h-[166px] w-full bg-gray-200 flex justify-center items-center">
-                      <p>Locked</p>
+                    <div className="h-[166px] w-full bg-gray-200 flex justify-center items-center relative">
+                      <Image
+                        src={LockIcon}
+                        alt=""
+                        width={20}
+                        height={20}
+                      />
+                      <p className="ml-1">Locked</p>
                     </div>
                   )}
 
