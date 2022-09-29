@@ -45,7 +45,7 @@ export default function Tour({ tourId }) {
                 </div>
                 <div className="relative max-h-72">
                   <Image
-                    src="https://upload.wikimedia.org/wikipedia/commons/1/12/Bristol_Temple_Meads_station_%286466232797%29.jpg"
+                    src="https://images.unsplash.com/photo-1502732728614-8329a1bf1415?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2970&q=80"
                     alt=""
                     layout="fill"
                     objectFit="cover"
